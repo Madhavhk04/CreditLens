@@ -1,6 +1,13 @@
 # CreditLens – Loan Portfolio Intelligence & Risk Analytics Platform
 
-CreditLens is an industry-grade, end-to-end data analytics and business intelligence platform built for digital lenders, fintechs, and NBFCs. The project establishes a structured PostgreSQL data warehouse, models synthetic datasets reflecting real-world portfolio risks, executes complex analytical queries, and designs executive Power BI dashboards to track growth and credit risk.
+<p align="center">
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-blue?style=for-the-badge&logo=postgresql" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Language-Python-blue?style=for-the-badge&logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/Dashboard-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Analytics-SQL-orange?style=for-the-badge" alt="SQL">
+</p>
+
+CreditLens is an industry-grade, end-to-end data analytics and business intelligence platform built for digital lenders, fintechs, and NBFCs. The project establishes a structured PostgreSQL data warehouse, models synthetic datasets reflecting real-world portfolio risks, executes complex analytical queries, and designs executive interactive dashboards to track growth and credit risk.
 
 ---
 
@@ -29,7 +36,8 @@ creditlens-lending-analytics/
 ├── reports/
 │   └── executive_business_report.md  # Executive Insights Report
 ├── docs/
-│   └── data_dictionary.md            # Warehouse data dictionary
+│   ├── data_dictionary.md            # Warehouse data dictionary
+│   └── page1_overview.png            # Dashboard Screenshots...
 ├── requirements.txt                  # Python dependencies
 └── README.md                         # Main portfolio landing page
 ```
@@ -67,14 +75,31 @@ The data warehouse features a clean star schema with 5 Dimension tables and 5 Fa
 
 ---
 
-## 📈 Power BI Dashboards
-The Power BI report contains six interactive pages:
-1.  **Executive Overview:** Active Portfolio Outstanding, NIM, NPL rates, and growth trajectories.
-2.  **Funnel Analytics:** App-to-funding drop-offs, rejection reason analysis, and pipeline speeds.
-3.  **Portfolio Analytics:** Amortization forecasts, repayment schedules, and vintage loss curves.
-4.  **Risk Intelligence:** Credit score bands, roll-rate transition matrices, and debt service ratios.
-5.  **Collection Analytics:** Agent CEI performance, strategy efficacy charts, and days-to-recover.
-6.  **Geographic Intelligence:** State-level maps, regional concentration metrics, and city outliers.
+## 📊 Interactive Dashboard Showcases
+
+### Page 1: Executive Portfolio Overview
+*Provides the C-suite with an immediate, high-level pulse on overall portfolio health, growth, and credit risk thresholds.*
+![Page 1: Executive Portfolio Overview](docs/page1_overview.png)
+
+### Page 2: Underwriting Funnel Analytics
+*Analyze application throughput speeds, funnel conversion milestones, and decline drivers.*
+![Page 2: Underwriting Funnel Analytics](docs/page2_funnel.png)
+
+### Page 3: Portfolio Performance
+*Track cohort asset behaviors, payment maturities, and vintage default rates over months on book.*
+![Page 3: Portfolio Performance](docs/page3_portfolio.png)
+
+### Page 4: Risk Intelligence
+*Isolate credit weaknesses, track DPD migrations, and optimize outbound account assignments.*
+![Page 4: Risk Intelligence](docs/page4_risk.png)
+
+### Page 5: Collection Strategy & Efficacy
+*Track recovery resolutions, agent success performance, and channel outreach cost benefits.*
+![Page 5: Collection Strategy & Efficacy](docs/page5_collections.png)
+
+### Page 6: Geographic Intelligence
+*Analyze geographic portfolio concentration, state volumes, and postcode outlier risks.*
+![Page 6: Geographic Intelligence](docs/page6_geography.png)
 
 ---
 
@@ -105,4 +130,10 @@ python scripts/data_generator.py
 Run the DB uploader script to load the generated CSV files into their respective SQL tables:
 ```bash
 python scripts/db_uploader.py
+```
+
+### Step 5: Launch the Interactive Dashboard
+To launch the interactive dashboard locally:
+```bash
+streamlit run app.py
 ```
