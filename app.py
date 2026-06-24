@@ -8,93 +8,149 @@ import plotly.graph_objects as go
 # Set page configuration with premium layout
 st.set_page_config(
     page_title="CreditLens – Lending Intelligence Platform",
-    page_icon="📊",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Ultra-Modern Glassmorphic CSS Injection
+# Custom Ultra-Modern Glassmorphic CSS Injection (SaaS Design System)
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
     
     /* Global Styles */
     html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
-        background-color: #05070f !important;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #030712 !important;
         color: #f8fafc !important;
     }
     
-    /* Main Layout Accents */
+    /* Main Layout Accents & Ambient Glows */
     .stApp {
         background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #030712 100%) !important;
     }
     
-    /* Sidebar Overhaul */
+    /* Sidebar Overhaul styling */
     section[data-testid="stSidebar"] {
-        background-color: rgba(9, 12, 28, 0.95) !important;
+        background-color: rgba(3, 7, 18, 0.95) !important;
         border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
         backdrop-filter: blur(20px);
     }
     
     /* Custom Card Design (Glassmorphism) */
     .glass-card {
-        background: rgba(15, 23, 42, 0.45) !important;
-        backdrop-filter: blur(16px);
+        background: rgba(15, 23, 42, 0.35) !important;
+        backdrop-filter: blur(24px);
         border: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        transition: all 0.3s ease-in-out;
+        border-radius: 20px;
+        padding: 26px;
+        box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-bottom: 20px;
     }
     
     .glass-card:hover {
-        border-color: rgba(56, 189, 248, 0.3);
-        transform: translateY(-2px);
-        box-shadow: 0 12px 40px 0 rgba(56, 189, 248, 0.05);
+        border-color: rgba(99, 102, 241, 0.35);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px -15px rgba(99, 102, 241, 0.1);
     }
     
     /* Premium KPI Metric Cards */
+    .kpi-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 25px;
+        width: 100%;
+    }
+    
     .kpi-card {
-        background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
-        backdrop-filter: blur(12px);
+        flex: 1;
+        background: rgba(15, 23, 42, 0.45);
+        backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 16px;
-        padding: 22px;
+        border-radius: 20px;
+        padding: 24px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        border-left: 4px solid #38bdf8;
-        transition: transform 0.2s ease;
+        border-top: 4px solid #6366f1;
+        transition: all 0.3s ease;
     }
     
     .kpi-card:hover {
         transform: scale(1.02);
+        border-color: rgba(255, 255, 255, 0.15);
     }
     
     .kpi-val {
-        font-size: 32px;
-        font-weight: 700;
-        color: #f8fafc;
-        letter-spacing: -1px;
-        margin-top: 5px;
+        font-size: 34px;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: -1.2px;
+        margin-top: 6px;
     }
     
     .kpi-label {
-        font-size: 13px;
-        font-weight: 600;
+        font-size: 11px;
+        font-weight: 700;
         color: #94a3b8;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
     
     /* Hero Banner Styling */
     .hero-banner {
-        background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, rgba(56, 189, 248, 0.05) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        border-radius: 20px;
-        padding: 30px;
-        margin-bottom: 25px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(6, 182, 212, 0.03) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.15);
+        border-radius: 24px;
+        padding: 35px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
     }
     
+    /* Navigation Active State */
+    div.row-widget.stRadio > div {
+        background: transparent !important;
+    }
+    
+    /* Dataframes and Tables Overhaul */
+    .stTable {
+        background-color: transparent !important;
+        border: none !important;
+    }
+    
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+    }
+    
+    th {
+        background-color: rgba(99, 102, 241, 0.1) !important;
+        color: #a5b4fc !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        font-size: 11px !important;
+        letter-spacing: 0.5px !important;
+        padding: 14px 16px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    
+    td {
+        padding: 14px 16px !important;
+        color: #cbd5e1 !important;
+        font-size: 13px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+        background-color: rgba(15, 23, 42, 0.2) !important;
+    }
+    
+    tr:hover td {
+        background-color: rgba(99, 102, 241, 0.05) !important;
+        color: #ffffff !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -124,10 +180,10 @@ df_cust, df_prod, df_loc, df_chan, df_date, df_app, df_app_all, df_apprv, df_dis
 
 # Theme palette configurations (Ultra-Modern Hex Codes)
 theme_colors = {
-    'primary': '#6366f1',    # Indigo
-    'secondary': '#38bdf8',  # Cyan
-    'success': '#10b981',    # Emerald Green
-    'warning': '#f59e0b',    # Amber Yellow
+    'primary': '#6366f1',    # Electric Indigo
+    'secondary': '#06b6d4',  # Tech Cyan
+    'success': '#10b981',    # Emerald Teal
+    'warning': '#f59e0b',    # Amber Gold
     'danger': '#f43f5e',     # Rose Red
     'background': '#0f172a'
 }
@@ -135,8 +191,10 @@ chart_colors = [theme_colors['primary'], theme_colors['secondary'], theme_colors
 
 # Sidebar Overhaul UI
 st.sidebar.markdown(
-    "<h1 style='color:#6366f1; font-weight:800; font-size: 28px; margin-bottom: 0px;'>CreditLens 📊</h1>"
-    "<p style='color:#94a3b8; font-size: 13px; font-weight: 500;'>Portfolio Analytics Platform</p>", 
+    "<div style='padding: 10px 0px;'>"
+    "<h1 style='color:#6366f1; font-weight:800; font-size: 30px; margin-bottom: 0px; letter-spacing: -1px;'>CreditLens ⚡</h1>"
+    "<p style='color:#94a3b8; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;'>LENDING PORTFOLIO INTELLIGENCE</p>"
+    "</div>", 
     unsafe_allow_html=True
 )
 st.sidebar.divider()
@@ -144,29 +202,29 @@ st.sidebar.divider()
 page = st.sidebar.radio(
     "Navigation Workspace",
     [
-        "Executive Portfolio Overview",
-        "Underwriting Funnel Analytics",
-        "Portfolio Performance",
-        "Risk Intelligence",
-        "Collection Analytics",
-        "Geographic Intelligence"
+        "🏠 Executive Portfolio Overview",
+        "🎯 Underwriting Funnel Analytics",
+        "📊 Portfolio Performance",
+        "🛡️ Risk Intelligence",
+        "💰 Collection Analytics",
+        "🌍 Geographic Intelligence"
     ]
 )
 
 st.sidebar.divider()
 st.sidebar.markdown(
-    "<div style='background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 15px; font-size: 12px; color: #94a3b8;'>"
-    "✨ <b>Recruiter Showcase Mode</b><br>"
-    "Star schema Postgres data model. Pre-aggregated queries on 5.8M rows."
+    "<div style='background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.15); border-radius: 14px; padding: 16px; font-size: 12.5px; color: #94a3b8; line-height: 1.5;'>"
+    "🌟 <b>Portfolio Showcase Mode</b><br>"
+    "PostgreSQL Data Warehouse running on 5.8M payment logs. Optimized queries are loaded."
     "</div>", 
     unsafe_allow_html=True
 )
 
 # Helper function to render glassmorphism KPI card
-def render_kpi(label, val, color_hex):
+def render_kpi(label, val, color_hex, emoji=""):
     st.markdown(f"""
-    <div class="kpi-card" style="border-left-color: {color_hex};">
-        <div class="kpi-label">{label}</div>
+    <div class="kpi-card" style="border-top-color: {color_hex};">
+        <div class="kpi-label"><span>{emoji}</span> {label}</div>
         <div class="kpi-val">{val}</div>
     </div>
     """, unsafe_allow_html=True)
@@ -178,22 +236,23 @@ def polish_plotly(fig):
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         font_family="Plus Jakarta Sans",
-        font_color="#f8fafc",
-        title_font=dict(size=16, family="Plus Jakarta Sans", color="#38bdf8", weight="bold"),
-        xaxis=dict(gridcolor='rgba(255,255,255,0.05)', zerolinecolor='rgba(255,255,255,0.05)'),
-        yaxis=dict(gridcolor='rgba(255,255,255,0.05)', zerolinecolor='rgba(255,255,255,0.05)'),
-        margin=dict(t=30, b=30, l=30, r=30)
+        font_color="#cbd5e1",
+        title_font=dict(size=16, family="Plus Jakarta Sans", color="#ffffff", weight="bold"),
+        xaxis=dict(gridcolor='rgba(255,255,255,0.05)', zerolinecolor='rgba(255,255,255,0.05)', tickfont=dict(size=11)),
+        yaxis=dict(gridcolor='rgba(255,255,255,0.05)', zerolinecolor='rgba(255,255,255,0.05)', tickfont=dict(size=11)),
+        legend=dict(bgcolor='rgba(0,0,0,0)', bordercolor='rgba(255,255,255,0.05)', font=dict(size=10)),
+        margin=dict(t=35, b=35, l=35, r=35)
     )
     return fig
 
 # ==========================================
 # PAGE 1: EXECUTIVE PORTFOLIO OVERVIEW
 # ==========================================
-if page == "Executive Portfolio Overview":
+if page == "🏠 Executive Portfolio Overview":
     st.markdown(
         "<div class='hero-banner'>"
-        "<span style='background-color: rgba(99, 102, 241, 0.2); color: #818cf8; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 12px; text-transform: uppercase;'>Overview</span>"
-        "<h1 style='font-weight:800; font-size: 38px; margin-top: 10px; margin-bottom: 5px; color: #f8fafc;'>Portfolio Performance Overview</h1>"
+        "<span style='background-color: rgba(99, 102, 241, 0.2); color: #a5b4fc; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>🏠 Overview</span>"
+        "<h1 style='font-weight:800; font-size: 40px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Portfolio Performance Overview</h1>"
         "<p style='color:#94a3b8; font-size: 15px; margin-bottom: 0px;'>Diagnostic health audit of total outstanding capital, pricing margins, and high-risk default allocations.</p>"
         "</div>", 
         unsafe_allow_html=True
@@ -202,13 +261,13 @@ if page == "Executive Portfolio Overview":
     # KPI Grid
     kpi_cols = st.columns(4)
     with kpi_cols[0]:
-        render_kpi("Active Portfolio Value", "$145.2M", theme_colors['primary'])
+        render_kpi("Active Portfolio Value", "$145.2M", theme_colors['primary'], "💵")
     with kpi_cols[1]:
-        render_kpi("Portfolio at Risk (PAR 30)", "2.40%", theme_colors['warning'])
+        render_kpi("Portfolio at Risk (PAR 30)", "2.40%", theme_colors['warning'], "⚠️")
     with kpi_cols[2]:
-        render_kpi("NPL Rate (90+ DPD)", "1.10%", theme_colors['danger'])
+        render_kpi("NPL Rate (90+ DPD)", "1.10%", theme_colors['danger'], "🚨")
     with kpi_cols[3]:
-        render_kpi("Net Interest Margin (NIM)", "8.70%", theme_colors['success'])
+        render_kpi("Net Interest Margin (NIM)", "8.70%", theme_colors['success'], "📈")
         
     st.write("")
     st.write("")
@@ -217,7 +276,7 @@ if page == "Executive Portfolio Overview":
     
     with col1:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Disbursed Loans by Sourcing Channel")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>📊 Disbursed Loans by Sourcing Channel</h3>", unsafe_allow_html=True)
         df_disb_ch = df_disb.merge(df_apprv, on='approval_key')\
                             .merge(df_app, on='application_key')\
                             .merge(df_chan, on='channel_key')
@@ -231,7 +290,7 @@ if page == "Executive Portfolio Overview":
         
     with col2:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Outstanding Balance by Risk Tier")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>📈 Outstanding Balance by Risk Tier</h3>", unsafe_allow_html=True)
         df_cust_mix = df_disb.merge(df_cust, on='customer_key')
         mix_data = df_cust_mix.groupby('risk_tier')['disbursed_amount'].sum().reset_index()
         mix_data.columns = ['Risk Tier', 'Outstanding Balance']
@@ -244,9 +303,9 @@ if page == "Executive Portfolio Overview":
     # Product Performance Grid
     st.write("")
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.subheader("Product Category Portfolio Performance Matrix")
+    st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>⚡ Product Category Portfolio Performance Matrix</h3>", unsafe_allow_html=True)
     prod_data = {
-        "Product Category": ["Personal Loan", "Auto Loan", "Home Loan", "Education Loan"],
+        "Product Category": ["Personal Loan 💳", "Auto Loan 🚗", "Home Loan 🏠", "Education Loan 🎓"],
         "Disbursed Volume": ["$42.5M", "$35.4M", "$51.2M", "$16.1M"],
         "WAIR (%)": ["15.00%", "10.00%", "8.50%", "11.00%"],
         "PAR 30 Rate (%)": ["3.90%", "0.45%", "0.22%", "1.15%"],
@@ -258,11 +317,11 @@ if page == "Executive Portfolio Overview":
 # ==========================================
 # PAGE 2: UNDERWRITING FUNNEL ANALYTICS
 # ==========================================
-elif page == "Underwriting Funnel Analytics":
+elif page == "🎯 Underwriting Funnel Analytics":
     st.markdown(
         "<div class='hero-banner'>"
-        "<span style='background-color: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 12px; text-transform: uppercase;'>Operations</span>"
-        "<h1 style='font-weight:800; font-size: 38px; margin-top: 10px; margin-bottom: 5px; color: #f8fafc;'>Underwriting Funnel Performance</h1>"
+        "<span style='background-color: rgba(6, 182, 212, 0.2); color: #22d3ee; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>🎯 Operations</span>"
+        "<h1 style='font-weight:800; font-size: 40px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Underwriting Funnel Performance</h1>"
         "<p style='color:#94a3b8; font-size: 15px; margin-bottom: 0px;'>Diagnostic funnel conversion, application throughput drop-offs, and verification bottlenecks.</p>"
         "</div>", 
         unsafe_allow_html=True
@@ -270,11 +329,11 @@ elif page == "Underwriting Funnel Analytics":
 
     kpi_cols = st.columns(3)
     with kpi_cols[0]:
-        render_kpi("Total Applications", "250,000", theme_colors['primary'])
+        render_kpi("Total Applications", "250,000", theme_colors['primary'], "📝")
     with kpi_cols[1]:
-        render_kpi("Approval Rate", "42.50%", theme_colors['success'])
+        render_kpi("Approval Rate", "42.50%", theme_colors['success'], "✅")
     with kpi_cols[2]:
-        render_kpi("Average Pipeline TAT", "18.5 Hours", theme_colors['secondary'])
+        render_kpi("Average Pipeline TAT", "18.5 Hours", theme_colors['secondary'], "⏱️")
 
     st.write("")
     st.write("")
@@ -283,8 +342,8 @@ elif page == "Underwriting Funnel Analytics":
     
     with col1:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Underwriting Funnel Milestones")
-        stages = ["1. Applied", "2. KYC Passed", "3. Verified", "4. Approved", "5. Disbursed"]
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>📊 Underwriting Funnel Milestones</h3>", unsafe_allow_html=True)
+        stages = ["1. Applied 📝", "2. KYC Passed 🔍", "3. Verified 💼", "4. Approved ✅", "5. Disbursed 💵"]
         counts = [250000, 212500, 150000, 106250, 100000]
         
         fig = go.Figure(go.Funnel(
@@ -300,7 +359,7 @@ elif page == "Underwriting Funnel Analytics":
         
     with col2:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Top Underwriting Rejection Reasons")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>🚨 Top Underwriting Rejection Reasons</h3>", unsafe_allow_html=True)
         rejections = df_apprv[df_apprv['approval_status'] == 'Declined']['rejection_reason'].value_counts().reset_index()
         rejections.columns = ['Reason', 'Count']
         
@@ -312,11 +371,11 @@ elif page == "Underwriting Funnel Analytics":
 # ==========================================
 # PAGE 3: PORTFOLIO PERFORMANCE
 # ==========================================
-elif page == "Portfolio Performance":
+elif page == "📊 Portfolio Performance":
     st.markdown(
         "<div class='hero-banner'>"
-        "<span style='background-color: rgba(16, 185, 129, 0.2); color: #10b981; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 12px; text-transform: uppercase;'>Amortization</span>"
-        "<h1 style='font-weight:800; font-size: 38px; margin-top: 10px; margin-bottom: 5px; color: #f8fafc;'>Portfolio Amortization & Vintage</h1>"
+        "<span style='background-color: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>📊 Amortization</span>"
+        "<h1 style='font-weight:800; font-size: 40px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Portfolio Amortization & Vintage</h1>"
         "<p style='color:#94a3b8; font-size: 15px; margin-bottom: 0px;'>Maturities, payments collection performance, and cohort cumulative delinquency curves.</p>"
         "</div>", 
         unsafe_allow_html=True
@@ -326,7 +385,7 @@ elif page == "Portfolio Performance":
     
     with col1:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Scheduled Installment Payoffs vs. Amount Collected")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>💵 Scheduled Installment Payoffs vs. Amount Collected</h3>", unsafe_allow_html=True)
         repay_agg = df_repay.groupby('installment_number')[['installment_amount', 'amount_paid']].sum().reset_index()
         
         fig = go.Figure()
@@ -338,7 +397,7 @@ elif page == "Portfolio Performance":
 
     with col2:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Vintage Cohort Delinquency Curves (MOB 0-12)")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>📈 Vintage Cohort Delinquency Curves (MOB 0-12)</h3>", unsafe_allow_html=True)
         mobs = list(range(13))
         v_jan = [0.0, 0.1, 0.3, 0.6, 0.9, 1.2, 1.5, 1.7, 1.9, 2.1, 2.3, 2.4, 2.4]
         v_feb = [0.0, 0.05, 0.2, 0.4, 0.7, 0.95, 1.1, 1.2, 1.3, 1.4, 1.5, 1.5, 1.6]
@@ -347,7 +406,7 @@ elif page == "Portfolio Performance":
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=mobs, y=v_jan, name='Cohort Jan 25', line=dict(color=theme_colors['success'], width=3)))
         fig.add_trace(go.Scatter(x=mobs, y=v_feb, name='Cohort Feb 25', line=dict(color=theme_colors['secondary'], width=3)))
-        fig.add_trace(go.Scatter(x=mobs, y=v_mar, name='Cohort Mar 25 (Alert)', line=dict(color=theme_colors['danger'], width=3, dash='dash')))
+        fig.add_trace(go.Scatter(x=mobs, y=v_mar, name='Cohort Mar 25 (Alert 🚨)', line=dict(color=theme_colors['danger'], width=3, dash='dash')))
         fig.update_layout(xaxis_title="Months on Book (MOB)", yaxis_title="Cumulative Default Rate %")
         st.plotly_chart(polish_plotly(fig), use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -355,11 +414,11 @@ elif page == "Portfolio Performance":
 # ==========================================
 # PAGE 4: RISK INTELLIGENCE
 # ==========================================
-elif page == "Risk Intelligence":
+elif page == "🛡️ Risk Intelligence":
     st.markdown(
         "<div class='hero-banner'>"
-        "<span style='background-color: rgba(244, 63, 94, 0.2); color: #f43f5e; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 12px; text-transform: uppercase;'>Risk</span>"
-        "<h1 style='font-weight:800; font-size: 38px; margin-top: 10px; margin-bottom: 5px; color: #f8fafc;'>Risk Segmentation & Action Queues</h1>"
+        "<span style='background-color: rgba(244, 63, 94, 0.2); color: #fb7185; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>🛡️ Risk</span>"
+        "<h1 style='font-weight:800; font-size: 40px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Risk Segmentation & Action Queues</h1>"
         "<p style='color:#94a3b8; font-size: 15px; margin-bottom: 0px;'>Isolate credit weaknesses, score migrations, and optimize outbound account assignments.</p>"
         "</div>", 
         unsafe_allow_html=True
@@ -369,7 +428,7 @@ elif page == "Risk Intelligence":
     
     with col1:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("NPL Rate % Heatmap (CIBIL vs. Monthly Income)")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>🚨 NPL Rate % Heatmap (CIBIL vs. Monthly Income)</h3>", unsafe_allow_html=True)
         df_risk = df_repay.merge(df_cust, on='customer_key')
         
         df_risk['Score Band'] = pd.cut(df_risk['credit_score'], bins=[300, 600, 680, 750, 900], labels=['300-599', '600-679', '680-749', '750-900'])
@@ -384,7 +443,7 @@ elif page == "Risk Intelligence":
 
     with col2:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Priority Action Outbound Dialer Queue (High Risk Delinquents)")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>📋 Priority Outbound Dialer Queue (High Risk Delinquents)</h3>", unsafe_allow_html=True)
         df_delinq = df_repay[df_repay['days_past_due'] > 30].merge(df_cust, on='customer_key').merge(df_disb, left_on='loan_key', right_on='disbursement_key')
         df_delinq = df_delinq[['customer_id', 'credit_score', 'loan_id', 'installment_amount', 'days_past_due', 'delinquency_bucket']].drop_duplicates().head(6)
         st.dataframe(df_delinq)
@@ -394,11 +453,11 @@ elif page == "Risk Intelligence":
 # ==========================================
 # PAGE 5: COLLECTION ANALYTICS
 # ==========================================
-elif page == "Collection Analytics":
+elif page == "💰 Collection Analytics":
     st.markdown(
         "<div class='hero-banner'>"
-        "<span style='background-color: rgba(245, 158, 11, 0.2); color: #f59e0b; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 12px; text-transform: uppercase;'>Recoveries</span>"
-        "<h1 style='font-weight:800; font-size: 38px; margin-top: 10px; margin-bottom: 5px; color: #f8fafc;'>Collections Strategy & Efficacy</h1>"
+        "<span style='background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>💰 Recoveries</span>"
+        "<h1 style='font-weight:800; font-size: 40px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Collections Strategy & Efficacy</h1>"
         "<p style='color:#94a3b8; font-size: 15px; margin-bottom: 0px;'>Tracking recovery resolutions, agent success performance, and cost benefits.</p>"
         "</div>", 
         unsafe_allow_html=True
@@ -408,7 +467,7 @@ elif page == "Collection Analytics":
     
     with col1:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Collections Efficiency Index (CEI) by Agent")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>💼 Collections Efficiency Index (CEI) by Agent</h3>", unsafe_allow_html=True)
         agent_stats = df_coll.groupby('agent_id')['recovered_amount'].sum().reset_index()
         agent_stats = agent_stats.sort_values(by='recovered_amount', ascending=False).head(10)
         
@@ -419,7 +478,7 @@ elif page == "Collection Analytics":
 
     with col2:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("Recoveries Split by Collection Outreach Strategy")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>📞 Recoveries Split by Outreach Strategy</h3>", unsafe_allow_html=True)
         strat_stats = df_coll.groupby('collection_strategy')['recovered_amount'].sum().reset_index()
         
         fig = px.pie(strat_stats, values='recovered_amount', names='collection_strategy',
@@ -430,11 +489,11 @@ elif page == "Collection Analytics":
 # ==========================================
 # PAGE 6: GEOGRAPHIC INTELLIGENCE
 # ==========================================
-elif page == "Geographic Intelligence":
+elif page == "🌍 Geographic Intelligence":
     st.markdown(
         "<div class='hero-banner'>"
-        "<span style='background-color: rgba(99, 102, 241, 0.2); color: #818cf8; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 12px; text-transform: uppercase;'>Geography</span>"
-        "<h1 style='font-weight:800; font-size: 38px; margin-top: 10px; margin-bottom: 5px; color: #f8fafc;'>Geographic Intelligence & Regional Loss</h1>"
+        "<span style='background-color: rgba(99, 102, 241, 0.2); color: #cbd5e1; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>🌍 Geography</span>"
+        "<h1 style='font-weight:800; font-size: 40px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Geographic Intelligence & Loss</h1>"
         "<p style='color:#94a3b8; font-size: 15px; margin-bottom: 0px;'>State concentrations, default outlier postcodes, and regional disbursements.</p>"
         "</div>", 
         unsafe_allow_html=True
@@ -444,9 +503,9 @@ elif page == "Geographic Intelligence":
     
     with col1:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("State-Level Disbursement Volumes ($)")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>🗺️ State-Level Disbursement Volumes ($)</h3>", unsafe_allow_html=True)
         state_data = {
-            "State": ["Maharashtra", "Delhi", "Uttar Pradesh", "Karnataka", "Tamil Nadu", "Telangana", "West Bengal", "Bihar", "Madhya Pradesh", "Gujarat"],
+            "State": ["Maharashtra 🏢", "Delhi 🏛️", "Uttar Pradesh 🌾", "Karnataka 💻", "Tamil Nadu 🏭", "Telangana 🌐", "West Bengal 🚢", "Bihar 🌄", "Madhya Pradesh 🗺️", "Gujarat 🏗️"],
             "Funded Volume": [35400000, 24500000, 18200000, 21500000, 16400000, 12200000, 9800000, 7200000, 8400000, 11500000]
         }
         df_st = pd.DataFrame(state_data).sort_values(by='Funded Volume', ascending=True)
@@ -457,9 +516,9 @@ elif page == "Geographic Intelligence":
 
     with col2:
         st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.subheader("State Default Rates % (Loss Concentration)")
+        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>⚠️ State Default Rates % (Loss Concentration)</h3>", unsafe_allow_html=True)
         default_data = {
-            "State": ["Maharashtra", "Delhi", "Uttar Pradesh", "Karnataka", "Tamil Nadu", "Telangana", "West Bengal", "Bihar", "Madhya Pradesh", "Gujarat"],
+            "State": ["Maharashtra 🏢", "Delhi 🏛️", "Uttar Pradesh 🌾", "Karnataka 💻", "Tamil Nadu 🏭", "Telangana 🌐", "West Bengal 🚢", "Bihar 🌄", "Madhya Pradesh 🗺️", "Gujarat 🏗️"],
             "Default Rate %": [1.20, 0.95, 4.20, 0.85, 1.10, 0.70, 2.10, 3.40, 1.80, 0.90]
         }
         df_df = pd.DataFrame(default_data).sort_values(by='Default Rate %', ascending=True)
