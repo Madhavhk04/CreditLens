@@ -1,0 +1,17 @@
+# Ignore large synthetic data CSV files to prevent GitHub push errors (>100MB limit)
+data_warehouse/raw_csvs/*.csv
+
+# Ignore Python runtime files and environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Ignore local system files
+.DS_Store
+Thumbs.db
+*.log
