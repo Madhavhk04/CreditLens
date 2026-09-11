@@ -5,192 +5,193 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
-# Set page configuration with premium layout
+# Set page configuration with institutional terminal layout
 st.set_page_config(
-    page_title="CreditLens – Lending Intelligence Platform",
-    page_icon="",
+    page_title="CreditLens – Credit Risk Intelligence Terminal",
+    page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Ultra-Modern Glassmorphic CSS Injection (SaaS Design System)
+# Institutional Credit Risk CSS Injection (Bloomberg/S&P Risk Memo Aesthetic)
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
     
-    /* Global Styles */
+    /* Root & Global Reset */
     html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        background-color: #030712 !important;
-        color: #f8fafc !important;
+        font-family: 'IBM Plex Sans', -apple-system, sans-serif !important;
+        background-color: #0b0f17 !important;
+        color: #f1f5f9 !important;
     }
     
-    /* Main Layout Accents & Ambient Glows */
+    /* Streamlit Canvas Background */
     .stApp {
-        background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #030712 100%) !important;
+        background-color: #0b0f17 !important;
     }
     
-    /* Sidebar Overhaul styling */
+    /* Sidebar Overhaul */
     section[data-testid="stSidebar"] {
-        background-color: rgba(3, 7, 18, 0.95) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(20px);
+        background-color: #0d131f !important;
+        border-right: 1px solid #1e293b !important;
     }
     
-    /* Custom Card Design (Glassmorphism) */
-    .glass-card {
-        background: rgba(15, 23, 42, 0.35) !important;
-        backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 20px;
-        padding: 26px;
-        box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        margin-bottom: 20px;
+    /* Card System */
+    .risk-card {
+        background-color: #141c28;
+        border: 1px solid #232d3f;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 16px;
     }
     
-    .glass-card:hover {
-        border-color: rgba(99, 102, 241, 0.35);
-        transform: translateY(-3px);
-        box-shadow: 0 15px 50px -15px rgba(99, 102, 241, 0.1);
+    .risk-card-alert {
+        background-color: #1a1625;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        border-top: 3px solid #ef4444;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 16px;
     }
     
-    /* AI Insights Card (Bento Focus) */
-    .insights-card {
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(15, 23, 42, 0.45) 100%) !important;
-        backdrop-filter: blur(24px);
-        border: 1px solid rgba(99, 102, 241, 0.25) !important;
-        border-radius: 20px;
-        padding: 26px;
-        box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.15);
-        margin-bottom: 20px;
-        position: relative;
-        overflow: hidden;
+    .risk-card-warning {
+        background-color: #1a1b24;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        border-top: 3px solid #f59e0b;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 16px;
     }
     
-    .insights-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, #6366f1, #06b6d4);
+    .risk-card-neutral {
+        background-color: #141c28;
+        border: 1px solid #232d3f;
+        border-top: 1px solid #334155;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 16px;
     }
     
-    /* Interactive Controller Card style */
-    .control-card {
-        background: rgba(15, 23, 42, 0.55) !important;
-        backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 20px;
-        padding: 26px;
-        box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
-        margin-bottom: 20px;
-    }
-    
-    .control-card-header {
-        font-weight: 700;
-        color: #38bdf8;
-        font-size: 18px;
-        margin-bottom: 15px;
-    }
-    
-    /* Premium KPI Metric Cards */
-    .kpi-container {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 25px;
-        width: 100%;
-    }
-    
-    .kpi-card {
-        flex: 1;
-        background: rgba(15, 23, 42, 0.45);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 20px;
-        padding: 24px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        border-top: 4px solid #6366f1;
-        transition: all 0.3s ease;
-    }
-    
-    .kpi-card:hover {
-        transform: scale(1.02);
-        border-color: rgba(255, 255, 255, 0.15);
-    }
-    
-    .kpi-val {
-        font-size: 34px;
+    /* Typography System: Tabular Numerals & Monospace */
+    .mono-val-lg {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-variant-numeric: tabular-nums;
+        font-size: 32px;
         font-weight: 800;
-        color: #ffffff;
-        letter-spacing: -1.2px;
-        margin-top: 6px;
+        line-height: 1.1;
+        margin-top: 4px;
+        margin-bottom: 4px;
     }
     
-    .kpi-label {
+    .mono-val-md {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-variant-numeric: tabular-nums;
+        font-size: 24px;
+        font-weight: 700;
+    }
+    
+    /* Risk Badges */
+    .risk-badge {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 3px;
+        letter-spacing: 0.5px;
+    }
+    .badge-crimson {
+        background-color: rgba(239, 68, 68, 0.18);
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .badge-amber {
+        background-color: rgba(245, 158, 11, 0.18);
+        color: #fde047;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+    .badge-blue {
+        background-color: rgba(59, 130, 246, 0.15);
+        color: #93c5fd;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    .badge-emerald {
+        background-color: rgba(16, 185, 129, 0.15);
+        color: #6ee7b7;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-slate {
+        background-color: rgba(100, 116, 139, 0.2);
+        color: #94a3b8;
+        border: 1px solid #334155;
+    }
+
+    /* Meta Labels */
+    .meta-label {
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+    
+    /* Risk Memo Panel */
+    .memo-card {
+        background-color: #111722;
+        border: 1px solid #1e293b;
+        border-left: 4px solid #ef4444;
+        border-radius: 6px;
+        padding: 20px;
+        height: 100%;
+    }
+    .memo-header {
+        font-family: 'JetBrains Mono', monospace;
         font-size: 11px;
         font-weight: 700;
-        color: #94a3b8;
-        text-transform: uppercase;
+        color: #ef4444;
         letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+    
+    /* Terminal Sync Header */
+    .terminal-bar {
+        background-color: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 6px;
+        padding: 12px 18px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
-        gap: 6px;
+        justify-content: space-between;
     }
     
-    /* Hero Banner Styling */
-    .hero-banner {
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(6, 182, 212, 0.03) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.15);
-        border-radius: 24px;
-        padding: 35px;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-    }
-    
-    /* Navigation Active State */
-    div.row-widget.stRadio > div {
-        background: transparent !important;
-    }
-    
-    /* Dataframes and Tables Overhaul */
-    .stTable {
-        background-color: transparent !important;
-        border: none !important;
-    }
-    
-    table {
-        width: 100% !important;
+    /* Dataframe / Table Overhaul */
+    div[data-testid="stTable"] table {
         border-collapse: collapse !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 12px !important;
-        overflow: hidden !important;
+        border: 1px solid #232d3f !important;
+        background-color: #141c28 !important;
+        border-radius: 4px !important;
+        width: 100% !important;
     }
-    
-    th {
-        background-color: rgba(99, 102, 241, 0.1) !important;
-        color: #a5b4fc !important;
+    div[data-testid="stTable"] th {
+        background-color: #0f172a !important;
+        color: #94a3b8 !important;
+        font-family: 'IBM Plex Sans', sans-serif !important;
+        font-size: 11px !important;
         font-weight: 700 !important;
         text-transform: uppercase !important;
-        font-size: 11px !important;
-        letter-spacing: 0.5px !important;
-        padding: 14px 16px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-bottom: 1px solid #232d3f !important;
+        padding: 10px 14px !important;
     }
-    
-    td {
-        padding: 14px 16px !important;
-        color: #cbd5e1 !important;
-        font-size: 13px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
-        background-color: rgba(15, 23, 42, 0.2) !important;
-    }
-    
-    tr:hover td {
-        background-color: rgba(99, 102, 241, 0.05) !important;
-        color: #ffffff !important;
+    div[data-testid="stTable"] td {
+        color: #e2e8f0 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 12px !important;
+        font-variant-numeric: tabular-nums !important;
+        border-bottom: 1px solid #1e293b !important;
+        padding: 10px 14px !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -219,29 +220,30 @@ def load_data():
 
 df_cust, df_prod, df_loc, df_chan, df_date, df_app, df_app_all, df_apprv, df_disb, df_repay, df_coll = load_data()
 
-# Theme palette configurations (Ultra-Modern Hex Codes)
+# Theme palette configuration (Institutional Financial Palette)
 theme_colors = {
-    'primary': '#6366f1',    # Electric Indigo
-    'secondary': '#06b6d4',  # Tech Cyan
-    'success': '#10b981',    # Emerald Teal
-    'warning': '#f59e0b',    # Amber Gold
-    'danger': '#f43f5e',     # Rose Red
-    'background': '#0f172a'
+    'primary': '#3b82f6',       # Institutional Blue
+    'alert': '#ef4444',         # Crimson Risk Warning (reserved for risk signals)
+    'warning': '#f59e0b',       # Amber DPD/Alert
+    'health': '#10b981',        # Emerald Stable/Payoff
+    'neutral': '#64748b',       # Muted Slate
+    'surface': '#141c28',
+    'bg': '#0b0f17'
 }
-chart_colors = [theme_colors['primary'], theme_colors['secondary'], theme_colors['success'], theme_colors['warning'], theme_colors['danger']]
+chart_colors = ['#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444']
 
-# Sidebar Overhaul UI
+# Sidebar Header & Workspace Navigation
 st.sidebar.markdown(
-    "<div style='padding: 10px 0px;'>"
-    "<h1 style='color:#6366f1; font-weight:800; font-size: 30px; margin-bottom: 0px; letter-spacing: -1px;'>CreditLens</h1>"
-    "<p style='color:#94a3b8; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;'>LENDING PORTFOLIO INTELLIGENCE</p>"
+    "<div style='padding: 10px 0px 5px 0px;'>"
+    "<div style='font-family: \"JetBrains Mono\", monospace; color: #3b82f6; font-weight: 800; font-size: 22px; letter-spacing: -0.5px;'>CREDITLENS</div>"
+    "<div style='color: #64748b; font-size: 11px; font-weight: 600; letter-spacing: 0.8px;'>CREDIT RISK TERMINAL v2.4</div>"
     "</div>", 
     unsafe_allow_html=True
 )
 st.sidebar.divider()
 
 page = st.sidebar.radio(
-    "Navigation Workspace",
+    "WORKSPACE NAVIGATION",
     [
         "Executive Portfolio Overview",
         "Underwriting Funnel Analytics",
@@ -254,83 +256,106 @@ page = st.sidebar.radio(
 
 st.sidebar.divider()
 st.sidebar.markdown(
-    "<div style='background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.15); border-radius: 14px; padding: 16px; font-size: 12.5px; color: #94a3b8; line-height: 1.5;'>"
-    "<b>Portfolio Showcase Mode</b><br>"
-    "PostgreSQL Data Warehouse running on 5.8M payment logs. Optimized queries are loaded."
+    "<div style='background: #141c28; border: 1px solid #232d3f; border-radius: 6px; padding: 14px; font-size: 11.5px; color: #94a3b8; line-height: 1.5;'>"
+    "<span style='font-family: \"JetBrains Mono\", monospace; color: #3b82f6; font-weight: 700;'>WAREHOUSE ENGINE</span><br>"
+    "PostgreSQL Data Warehouse online.<br>"
+    "<span style='font-family: \"JetBrains Mono\", monospace; color: #64748b;'>5.8M Payment Records Loaded</span>"
     "</div>", 
     unsafe_allow_html=True
 )
 
-# Helper function to render glassmorphism KPI card
-def render_kpi(label, val, color_hex):
+# Helper function to render institutional KPI card
+def render_kpi(label, val, badge_text, badge_class, card_class="risk-card-neutral", val_color="#f1f5f9", subtext=None):
+    sub_html = f"<div style='font-size:11px; color:#64748b; margin-top:4px;'>{subtext}</div>" if subtext else ""
     st.markdown(f"""
-    <div class="kpi-card" style="border-top-color: {color_hex};">
-        <div class="kpi-label">{label}</div>
-        <div class="kpi-val">{val}</div>
+    <div class="{card_class}">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span class="meta-label">{label}</span>
+            <span class="risk-badge {badge_class}">{badge_text}</span>
+        </div>
+        <div class="mono-val-lg" style="color: {val_color};">{val}</div>
+        {sub_html}
     </div>
     """, unsafe_allow_html=True)
 
-# Helper to apply clean dark theme to Plotly charts
+# Helper to apply institutional dark financial theme to Plotly charts
 def polish_plotly(fig):
-    layout_update = dict(
+    fig.update_layout(
         template="plotly_dark",
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        font_family="Plus Jakarta Sans",
-        font_color="#cbd5e1",
-        xaxis=dict(gridcolor='rgba(255,255,255,0.05)', zerolinecolor='rgba(255,255,255,0.05)', tickfont=dict(size=11)),
-        yaxis=dict(gridcolor='rgba(255,255,255,0.05)', zerolinecolor='rgba(255,255,255,0.05)', tickfont=dict(size=11)),
-        legend=dict(bgcolor='rgba(0,0,0,0)', bordercolor='rgba(255,255,255,0.05)', font=dict(size=10)),
-        margin=dict(t=15, b=25, l=25, r=15)
+        font_family="IBM Plex Sans",
+        font_color="#94a3b8",
+        margin=dict(t=25, b=25, l=25, r=15),
+        xaxis=dict(
+            gridcolor='#1e293b',
+            zerolinecolor='#1e293b',
+            tickfont=dict(size=11, family="JetBrains Mono", color="#64748b"),
+            title_font=dict(size=11, color="#94a3b8")
+        ),
+        yaxis=dict(
+            gridcolor='#1e293b',
+            zerolinecolor='#1e293b',
+            tickfont=dict(size=11, family="JetBrains Mono", color="#64748b"),
+            title_font=dict(size=11, color="#94a3b8")
+        ),
+        legend=dict(
+            bgcolor='rgba(15,23,42,0.7)',
+            bordercolor='#232d3f',
+            font=dict(size=11, color="#cbd5e1")
+        )
     )
-    # Only configure title font if a title actually exists
     if fig.layout.title and fig.layout.title.text:
-        layout_update['title_font'] = dict(size=16, family="Plus Jakarta Sans", color="#ffffff", weight="bold")
+        fig.layout.title.font = dict(size=13, family="IBM Plex Sans", color="#f1f5f9", weight="bold")
     else:
         fig.layout.title = None
-    fig.update_layout(**layout_update)
     return fig
 
 # ==========================================
 # PAGE 1: EXECUTIVE PORTFOLIO OVERVIEW
 # ==========================================
 if page == "Executive Portfolio Overview":
+    # Top Status Bar
+    st.markdown(
+        "<div class='terminal-bar'>"
+        "<div>"
+        "<span style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #10b981; font-weight: 700;'>SYSTEM ONLINE</span> "
+        "<span style='font-size: 13px; font-weight: 600; color: #f1f5f9; margin-left: 10px;'>EXECUTIVE PORTFOLIO RISK AUDIT</span>"
+        "</div>"
+        "<div style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #64748b;'>"
+        "DATA SYNC: 2026-09-11 16:30 UTC | PORTFOLIO BATCH: AS-OF-DATE"
+        "</div>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    
     row1_col1, row1_col2 = st.columns([2, 1])
     
     with row1_col1:
-        st.markdown(
-            "<div class='hero-banner' style='margin-bottom: 20px; padding: 30px;'>"
-            "<span style='background-color: rgba(99, 102, 241, 0.2); color: #a5b4fc; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>Overview</span>"
-            "<h1 style='font-weight:800; font-size: 34px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Portfolio Performance Overview</h1>"
-            "<p style='color:#94a3b8; font-size: 14px; margin-bottom: 0px;'>Diagnostic health audit of total outstanding capital, pricing margins, and high-risk default allocations.</p>"
-            "</div>", 
-            unsafe_allow_html=True
-        )
-        
-        # KPI Grid inside left col
+        # KPI Grid - Strict Risk Hierarchy
         kpi_cols = st.columns(4)
         with kpi_cols[0]:
-            render_kpi("Active Portfolio Value", "$145.2M", theme_colors['primary'])
+            render_kpi("PAR 30 | 30-89 DAYS DPD", "2.40%", "ELEVATED RISK", "badge-amber", "risk-card-warning", "#fde047", "▲ +0.35% MoM vs Target 2.00%")
         with kpi_cols[1]:
-            render_kpi("Portfolio at Risk (PAR 30)", "2.40%", theme_colors['warning'])
+            render_kpi("NPL RATE | 90+ DPD EXPOSURE", "1.10%", "TARGET 1.50%", "badge-crimson", "risk-card-alert", "#fca5a5", "▲ +0.12% MoM ($1.60M NPL)")
         with kpi_cols[2]:
-            render_kpi("NPL Rate (90+ DPD)", "1.10%", theme_colors['danger'])
+            render_kpi("ACTIVE PORTFOLIO VALUE", "$145.2M", "CAPITAL BASE", "badge-blue", "risk-card-neutral", "#93c5fd", "12,450 Disbursed Accounts")
         with kpi_cols[3]:
-            render_kpi("Net Interest Margin (NIM)", "8.70%", theme_colors['success'])
+            render_kpi("NET INTEREST MARGIN (NIM)", "8.70%", "SPREAD HEALTH", "badge-emerald", "risk-card-neutral", "#6ee7b7", "WAIR 11.20% | Cost 2.50%")
             
     with row1_col2:
-        # Large AI Insights Card (Bento Focus)
+        # AI Underwriting Risk Memo
         st.markdown(
-            "<div class='insights-card' style='height: 100%; min-height: 275px;'>"
-            "<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; color: #a5b4fc; letter-spacing: 1px;'>AI Portfolio Analyst</div>"
-            "<h3 style='margin-top: 5px; margin-bottom: 12px; font-weight: 800; color: #ffffff; font-size: 18px;'>Executive Risk Summary</h3>"
-            "<p style='color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-bottom: 10px;'>"
-            "Portfolio health is <strong>stable</strong> with NPL maintained at 1.10%. However, Cohort Mar 25 shows early stress indicators with default rates climbing 2.4x above historical norms."
-            "</p>"
-            "<ul style='color: #94a3b8; font-size: 12px; padding-left: 15px; line-height: 1.5; margin-bottom: 0px;'>"
-            "<li>Maharashtra holds the largest funding volume but has low defaults (1.20%).</li>"
-            "<li>Personal Loans carry the highest default risk at 3.90% PAR 30.</li>"
-            "<li>Organic search remains the highest-quality sourcing channel.</li>"
+            "<div class='memo-card'>"
+            "<div class='memo-header'>RISK COMMITTEE MEMORANDUM | CR-2026-09</div>"
+            "<div style='font-size: 14px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px;'>Executive Risk Findings & Stress Warning</div>"
+            "<div style='color: #cbd5e1; font-size: 12.5px; line-height: 1.5; margin-bottom: 12px;'>"
+            "Overall portfolio defaults remain bounded (NPL at 1.10%), but <strong style='color: #ef4444;'>Cohort Mar 25 shows 2.4x accelerated delinquency migration</strong> at Month on Book (MOB) 6."
+            "</div>"
+            "<ul style='color: #94a3b8; font-size: 11.5px; padding-left: 16px; line-height: 1.5; margin-bottom: 0px;'>"
+            "<li><strong style='color: #f1f5f9;'>Subprime Segment (CIBIL &lt;650):</strong> PAR 30 expanded to 3.90%.</li>"
+            "<li><strong style='color: #f1f5f9;'>Geographic Concentration:</strong> Uttar Pradesh NPL outlier at 4.20%.</li>"
+            "<li><strong style='color: #f1f5f9;'>Channel Quality:</strong> Partner Digital affiliates driving 58% of defaults.</li>"
             "</ul>"
             "</div>", 
             unsafe_allow_html=True
@@ -341,8 +366,8 @@ if page == "Executive Portfolio Overview":
     row2_col1, row2_col2 = st.columns([1, 2])
     
     with row2_col1:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Disbursed Loans by Sourcing Channel</h3>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>DISBURSED LOANS BY SOURCING CHANNEL</div>", unsafe_allow_html=True)
         df_disb_ch = df_disb.merge(df_apprv, on='approval_key')\
                             .merge(df_app, on='application_key')\
                             .merge(df_chan, on='channel_key')
@@ -350,15 +375,15 @@ if page == "Executive Portfolio Overview":
         ch_counts.columns = ['Source', 'Loans Funded']
         
         fig = px.pie(ch_counts, values='Loans Funded', names='Source', 
-                     color_discrete_sequence=chart_colors, hole=0.45)
+                     color_discrete_sequence=chart_colors, hole=0.55)
         st.plotly_chart(polish_plotly(fig), use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
     with row2_col2:
-        st.markdown("<div class='control-card'>", unsafe_allow_html=True)
-        st.markdown("<div class='control-card-header'>Interactive Credit Stress Tester</div>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;'><span class='meta-label'>INTERACTIVE CREDIT STRESS TESTER</span><span class='risk-badge badge-blue'>SIMULATION ENGINE</span></div>", unsafe_allow_html=True)
         
-        cutoff = st.slider("Select Minimum CIBIL Score Cutoff Filter", 300, 850, 600, 10)
+        cutoff = st.slider("Underwriting CIBIL Score Cutoff Floor", 300, 850, 600, 10)
         
         # Calculate dynamic metrics based on filter
         df_cust_filtered = df_cust[df_cust['credit_score'] >= cutoff]
@@ -375,9 +400,10 @@ if page == "Executive Portfolio Overview":
         st.write("")
         metric_cols = st.columns(2)
         with metric_cols[0]:
-            st.markdown(f"<div style='font-size:12px; text-transform:uppercase; color:#94a3b8; font-weight:700;'>Simulated Active Portfolio Value</div><div style='font-size:28px; font-weight:800; color:#38bdf8;'>${active_val_m:.1f}M</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='meta-label'>Simulated Active Portfolio Value</div><div class='mono-val-md' style='color:#3b82f6;'>${active_val_m:.1f}M</div>", unsafe_allow_html=True)
         with metric_cols[1]:
-            st.markdown(f"<div style='font-size:12px; text-transform:uppercase; color:#94a3b8; font-weight:700;'>Simulated NPL Default Rate</div><div style='font-size:28px; font-weight:800; color:#f43f5e;'>{simulated_npl:.2f}%</div>", unsafe_allow_html=True)
+            npl_color = "#ef4444" if simulated_npl > 2.0 else "#10b981"
+            st.markdown(f"<div class='meta-label'>Simulated NPL Default Rate</div><div class='mono-val-md' style='color:{npl_color};'>{simulated_npl:.2f}%</div>", unsafe_allow_html=True)
             
         st.markdown("<p style='font-size:11.5px; color:#64748b; margin-top:15px; margin-bottom:0px;'>Adjusting the minimum credit score requirement acts as an immediate lever on underwriting conversions. Raising limits cuts high-risk default volumes but restricts outstanding balances.</p>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -385,8 +411,8 @@ if page == "Executive Portfolio Overview":
     row3_col1, row3_col2 = st.columns([2, 1])
     
     with row3_col1:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Product Category Portfolio Performance Matrix</h3>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>PRODUCT CATEGORY PORTFOLIO PERFORMANCE MATRIX</div>", unsafe_allow_html=True)
         prod_data = {
             "Product Category": ["Personal Loan", "Auto Loan", "Home Loan", "Education Loan"],
             "Disbursed Volume": ["$42.5M", "$35.4M", "$51.2M", "$16.1M"],
@@ -398,14 +424,14 @@ if page == "Executive Portfolio Overview":
         st.markdown("</div>", unsafe_allow_html=True)
         
     with row3_col2:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Outstanding Balance by Risk Tier</h3>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>OUTSTANDING BALANCE BY RISK TIER</div>", unsafe_allow_html=True)
         df_cust_mix = df_disb.merge(df_cust, on='customer_key')
         mix_data = df_cust_mix.groupby('risk_tier')['disbursed_amount'].sum().reset_index()
         mix_data.columns = ['Risk Tier', 'Outstanding Balance']
         
         fig = px.bar(mix_data, x='Outstanding Balance', y='Risk Tier', orientation='h',
-                     color='Risk Tier', color_discrete_sequence=chart_colors[::-1])
+                     color='Risk Tier', color_discrete_sequence=['#ef4444', '#f59e0b', '#3b82f6', '#10b981'])
         st.plotly_chart(polish_plotly(fig), use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -413,50 +439,54 @@ if page == "Executive Portfolio Overview":
 # PAGE 2: UNDERWRITING FUNNEL ANALYTICS
 # ==========================================
 elif page == "Underwriting Funnel Analytics":
+    st.markdown(
+        "<div class='terminal-bar'>"
+        "<div>"
+        "<span style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #3b82f6; font-weight: 700;'>OPERATIONS AUDIT</span> "
+        "<span style='font-size: 13px; font-weight: 600; color: #f1f5f9; margin-left: 10px;'>UNDERWRITING FUNNEL & PIPELINE THROUGHPUT</span>"
+        "</div>"
+        "<div style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #64748b;'>"
+        "PIPELINE TAT: 18.5 HRS | APPROVAL CONVERSION: 42.5%"
+        "</div>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    
     row1_col1, row1_col2 = st.columns([1, 2])
     
     with row1_col1:
         st.markdown(
-            "<div class='insights-card' style='height: 100%; min-height: 295px;'>"
-            "<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; color: #cbd5e1; letter-spacing: 1px;'>AI Funnel Audit</div>"
-            "<h3 style='margin-top: 5px; margin-bottom: 12px; font-weight: 800; color: #ffffff; font-size: 18px;'>Throughput Analysis</h3>"
-            "<p style='color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-bottom: 10px;'>"
-            "Funnel conversions show high drop-offs between <strong>KYC Passed</strong> and <strong>Verified</strong> stages. Pipeline TAT stands at 18.5 hours."
-            "</p>"
-            "<ul style='color: #94a3b8; font-size: 12px; padding-left: 15px; line-height: 1.5; margin-bottom: 0px;'>"
-            "<li>High rejection count due to CIBIL defaults (42% of declines).</li>"
-            "<li>Verification bottlenecks account for 12.5 hours of total TAT.</li>"
-            "<li>Auto loan conversion is 1.8x faster than housing approvals.</li>"
+            "<div class='memo-card'>"
+            "<div class='memo-header'>UNDERWRITING AUDIT MEMO</div>"
+            "<div style='font-size: 14px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px;'>Verification Stage Bottleneck</div>"
+            "<div style='color: #cbd5e1; font-size: 12.5px; line-height: 1.5; margin-bottom: 10px;'>"
+            "Significant attrition observed between <strong style='color: #f1f5f9;'>KYC Passed</strong> and <strong style='color: #f1f5f9;'>Verified</strong> milestones, driving total turnaround time to 18.5 hours."
+            "</div>"
+            "<ul style='color: #94a3b8; font-size: 11.5px; padding-left: 15px; line-height: 1.5; margin-bottom: 0px;'>"
+            "<li>CIBIL default threshold breaches cause 42% of total declines.</li>"
+            "<li>Income verification holds 12.5 hours of processing latency.</li>"
+            "<li>Auto loan throughput speed is 1.8x faster than housing loans.</li>"
             "</ul>"
             "</div>", 
             unsafe_allow_html=True
         )
         
     with row1_col2:
-        st.markdown(
-            "<div class='hero-banner' style='margin-bottom: 20px; padding: 30px;'>"
-            "<span style='background-color: rgba(6, 182, 212, 0.2); color: #22d3ee; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>Operations</span>"
-            "<h1 style='font-weight:800; font-size: 34px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Underwriting Funnel Performance</h1>"
-            "<p style='color:#94a3b8; font-size: 14px; margin-bottom: 0px;'>Diagnostic funnel conversion, application throughput drop-offs, and verification bottlenecks.</p>"
-            "</div>", 
-            unsafe_allow_html=True
-        )
-        
         kpi_cols = st.columns(3)
         with kpi_cols[0]:
-            render_kpi("Total Applications", "250,000", theme_colors['primary'])
+            render_kpi("TOTAL APPLICATIONS", "250,000", "PIPELINE VOLUME", "badge-slate")
         with kpi_cols[1]:
-            render_kpi("Approval Rate", "42.50%", theme_colors['success'])
+            render_kpi("APPROVAL CONVERSION", "42.50%", "PASSED UNDERWRITING", "badge-emerald", val_color="#6ee7b7")
         with kpi_cols[2]:
-            render_kpi("Average Pipeline TAT", "18.5 Hours", theme_colors['secondary'])
+            render_kpi("AVG PIPELINE TAT", "18.5 HRS", "PROCESSING TIME", "badge-blue", val_color="#93c5fd")
 
     st.write("")
 
     row2_col1, row2_col2 = st.columns([2, 1])
     
     with row2_col1:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Underwriting Funnel Milestones</h3>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>UNDERWRITING FUNNEL MILESTONES</div>", unsafe_allow_html=True)
         stages = ["1. Applied", "2. KYC Passed", "3. Verified", "4. Approved", "5. Disbursed"]
         counts = [250000, 212500, 150000, 106250, 100000]
         
@@ -465,17 +495,17 @@ elif page == "Underwriting Funnel Analytics":
             x=counts,
             textposition="inside",
             textinfo="value+percent initial",
-            opacity=0.85,
-            marker={"color": chart_colors}
+            opacity=0.9,
+            marker={"color": ['#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#64748b']}
         ))
         st.plotly_chart(polish_plotly(fig), use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
     with row2_col2:
-        st.markdown("<div class='control-card'>", unsafe_allow_html=True)
-        st.markdown("<div class='control-card-header'>Underwriting Simulator</div>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>UNDERWRITING SIMULATOR</div>", unsafe_allow_html=True)
         
-        sim_income = st.slider("Minimum Monthly Income Limit", 10000, 100000, 30000, 5000)
+        sim_income = st.slider("Minimum Monthly Income Limit ($)", 10000, 100000, 30000, 5000)
         sim_cibil = st.slider("Minimum Underwriting CIBIL", 300, 900, 650, 10)
         
         # Calculate simulated rates
@@ -485,19 +515,19 @@ elif page == "Underwriting Funnel Analytics":
         simulated_declines = int(250000 * (1 - (simulated_app_rate / 100.0)))
         
         st.write("")
-        st.markdown(f"<div style='font-size:12px; text-transform:uppercase; color:#94a3b8; font-weight:700;'>Projected Approval Rate</div><div style='font-size:28px; font-weight:800; color:#10b981;'>{simulated_app_rate:.1f}%</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='meta-label'>Projected Approval Rate</div><div class='mono-val-md' style='color:#10b981;'>{simulated_app_rate:.1f}%</div>", unsafe_allow_html=True)
         st.write("")
-        st.markdown(f"<div style='font-size:12px; text-transform:uppercase; color:#94a3b8; font-weight:700;'>Estimated Declined Applications</div><div style='font-size:28px; font-weight:800; color:#f43f5e;'>{simulated_declines:,}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='meta-label'>Estimated Declined Applications</div><div class='mono-val-md' style='color:#ef4444;'>{simulated_declines:,}</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
     st.write("")
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Top Underwriting Rejection Reasons</h3>", unsafe_allow_html=True)
+    st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+    st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>TOP UNDERWRITING REJECTION REASONS</div>", unsafe_allow_html=True)
     rejections = df_apprv[df_apprv['approval_status'] == 'Declined']['rejection_reason'].value_counts().reset_index()
     rejections.columns = ['Reason', 'Count']
     
     fig = px.bar(rejections, x='Count', y='Reason', orientation='h',
-                 color_discrete_sequence=[theme_colors['danger']])
+                 color_discrete_sequence=['#ef4444'])
     st.plotly_chart(polish_plotly(fig), use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -505,50 +535,56 @@ elif page == "Underwriting Funnel Analytics":
 # PAGE 3: PORTFOLIO PERFORMANCE
 # ==========================================
 elif page == "Portfolio Performance":
+    st.markdown(
+        "<div class='terminal-bar'>"
+        "<div>"
+        "<span style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #10b981; font-weight: 700;'>AMORTIZATION MONITOR</span> "
+        "<span style='font-size: 13px; font-weight: 600; color: #f1f5f9; margin-left: 10px;'>PORTFOLIO MATURITIES & VINTAGE DELINQUENCY</span>"
+        "</div>"
+        "<div style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #64748b;'>"
+        "MOB HORIZON: 0-12 | COHORT MONITORING: ACTIVE"
+        "</div>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    
     row1_col1, row1_col2 = st.columns([2, 1])
     
     with row1_col1:
         st.markdown(
-            "<div class='hero-banner' style='margin-bottom: 20px; padding: 30px;'>"
-            "<span style='background-color: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>Amortization</span>"
-            "<h1 style='font-weight:800; font-size: 34px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Portfolio Amortization & Vintage</h1>"
-            "<p style='color:#94a3b8; font-size: 14px; margin-bottom: 0px;'>Maturities, payments collection performance, and cohort cumulative delinquency curves.</p>"
+            "<div class='memo-card'>"
+            "<div class='memo-header'>VINTAGE AUDIT MEMO</div>"
+            "<div style='font-size: 14px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px;'>Cohort Mar '25 Early Stress Warning</div>"
+            "<div style='color: #cbd5e1; font-size: 12.5px; line-height: 1.5;'>"
+            "Repayment ledgers indicate an amortization gap of $1.2M in past-due installment maturities. Cohort Mar 25 shows cumulative default expansion starting at MOB 4."
+            "</div>"
             "</div>", 
             unsafe_allow_html=True
         )
         
     with row1_col2:
-        st.markdown(
-            "<div class='insights-card' style='height: 100%; min-height: 185px;'>"
-            "<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; color: #cbd5e1; letter-spacing: 1px;'>AI Credit Analyst</div>"
-            "<h3 style='margin-top: 5px; margin-bottom: 12px; font-weight: 800; color: #ffffff; font-size: 18px;'>Maturities & Cohorts</h3>"
-            "<p style='color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-bottom: 0px;'>"
-            "Repayments performance shows an amortization gap of $1.2M in late installments. Cohort Mar 25 shows early delinquency expansion."
-            "</p>"
-            "</div>", 
-            unsafe_allow_html=True
-        )
+        render_kpi("REPAYMENT AMORTIZATION GAP", "$1.2M", "MATURITY DELAY", "badge-amber", "risk-card-warning", "#fde047")
 
     st.write("")
 
     row2_col1, row2_col2 = st.columns([1, 2])
     
     with row2_col1:
-        st.markdown("<div class='control-card'>", unsafe_allow_html=True)
-        st.markdown("<div class='control-card-header'>Vintage Delinquency Simulator</div>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>VINTAGE DELINQUENCY STRESS SIMULATOR</div>", unsafe_allow_html=True)
         
         sim_cohort = st.selectbox("Highlight Cohort Curve", ["Cohort Jan 25", "Cohort Feb 25", "Cohort Mar 25"])
-        stress_multiplier = st.slider("Vintage Stress Multiplier", 1.0, 3.0, 1.0, 0.1)
+        stress_multiplier = st.slider("Apply Vintage Stress Multiplier", 1.0, 3.0, 1.0, 0.1)
         
         st.write("")
-        st.markdown(f"<div style='font-size:12px; text-transform:uppercase; color:#94a3b8; font-weight:700;'>Selected Cohort</div><div style='font-size:24px; font-weight:800; color:#38bdf8;'>{sim_cohort}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='meta-label'>Selected Target Cohort</div><div class='mono-val-md' style='color:#3b82f6;'>{sim_cohort}</div>", unsafe_allow_html=True)
         st.write("")
-        st.markdown(f"<div style='font-size:12px; text-transform:uppercase; color:#94a3b8; font-weight:700;'>Applied Risk Stress Multiplier</div><div style='font-size:24px; font-weight:800; color:#f43f5e;'>{stress_multiplier:.1f}x</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='meta-label'>Applied Stress Multiplier</div><div class='mono-val-md' style='color:#ef4444;'>{stress_multiplier:.1f}x</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
     with row2_col2:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Vintage Cohort Delinquency Curves (MOB 0-12)</h3>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>VINTAGE COHORT DELINQUENCY CURVES (MOB 0-12)</div>", unsafe_allow_html=True)
         mobs = list(range(13))
         
         # Base curves
@@ -565,21 +601,21 @@ elif page == "Portfolio Performance":
             v_mar = v_mar * stress_multiplier
             
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=mobs, y=v_jan.tolist(), name='Cohort Jan 25', line=dict(color=theme_colors['success'], width=3)))
-        fig.add_trace(go.Scatter(x=mobs, y=v_feb.tolist(), name='Cohort Feb 25', line=dict(color=theme_colors['secondary'], width=3)))
-        fig.add_trace(go.Scatter(x=mobs, y=v_mar.tolist(), name='Cohort Mar 25 (Alert)', line=dict(color=theme_colors['danger'], width=3, dash='dash')))
+        fig.add_trace(go.Scatter(x=mobs, y=v_jan.tolist(), name='Cohort Jan 25', line=dict(color='#10b981', width=2.5)))
+        fig.add_trace(go.Scatter(x=mobs, y=v_feb.tolist(), name='Cohort Feb 25', line=dict(color='#3b82f6', width=2.5)))
+        fig.add_trace(go.Scatter(x=mobs, y=v_mar.tolist(), name='Cohort Mar 25 (Alert)', line=dict(color='#ef4444', width=3, dash='dash')))
         fig.update_layout(xaxis_title="Months on Book (MOB)", yaxis_title="Cumulative Default Rate %")
         st.plotly_chart(polish_plotly(fig), use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
     st.write("")
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Scheduled Installment Payoffs vs. Amount Collected</h3>", unsafe_allow_html=True)
+    st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+    st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>SCHEDULED INSTALLMENT DUES VS. ACTUAL AMOUNT COLLECTED</div>", unsafe_allow_html=True)
     repay_agg = df_repay.groupby('installment_number')[['installment_amount', 'amount_paid']].sum().reset_index()
     
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=repay_agg['installment_number'], y=repay_agg['installment_amount'], name='Scheduled Due', marker_color=theme_colors['primary']))
-    fig.add_trace(go.Bar(x=repay_agg['installment_number'], y=repay_agg['amount_paid'], name='Actual Paid', marker_color=theme_colors['success']))
+    fig.add_trace(go.Bar(x=repay_agg['installment_number'], y=repay_agg['installment_amount'], name='Scheduled Due', marker_color='#3b82f6'))
+    fig.add_trace(go.Bar(x=repay_agg['installment_number'], y=repay_agg['amount_paid'], name='Actual Paid', marker_color='#10b981'))
     fig.update_layout(barmode='group', xaxis_title="Installment Sequence", yaxis_title="Capital Volume ($)")
     st.plotly_chart(polish_plotly(fig), use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -588,37 +624,43 @@ elif page == "Portfolio Performance":
 # PAGE 4: RISK INTELLIGENCE
 # ==========================================
 elif page == "Risk Intelligence":
+    st.markdown(
+        "<div class='terminal-bar'>"
+        "<div>"
+        "<span style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #ef4444; font-weight: 700;'>RISK ENGINE</span> "
+        "<span style='font-size: 13px; font-weight: 600; color: #f1f5f9; margin-left: 10px;'>DELINQUENCY SEGMENTATION & ACTION QUEUE</span>"
+        "</div>"
+        "<div style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #64748b;'>"
+        "HIGH RISK QUEUE FILTER: ACTIVE"
+        "</div>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    
     row1_col1, row1_col2 = st.columns([2, 1])
     
     with row1_col1:
         st.markdown(
-            "<div class='hero-banner' style='margin-bottom: 20px; padding: 30px;'>"
-            "<span style='background-color: rgba(244, 63, 94, 0.2); color: #fb7185; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>Risk</span>"
-            "<h1 style='font-weight:800; font-size: 34px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Risk Segmentation & Action Queues</h1>"
-            "<p style='color:#94a3b8; font-size: 14px; margin-bottom: 0px;'>Isolate credit weaknesses, score migrations, and optimize outbound account assignments.</p>"
+            "<div class='memo-card'>"
+            "<div class='memo-header'>RISK SEGMENTATION FINDINGS</div>"
+            "<div style='font-size: 14px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px;'>Subprime Concentration Loss</div>"
+            "<div style='color: #cbd5e1; font-size: 12.5px; line-height: 1.5;'>"
+            "Subprime borrowers with monthly income under $35,000 represent 58% of total portfolio default volume. Action queues prioritized by DPD and cover ratios."
+            "</div>"
             "</div>", 
             unsafe_allow_html=True
         )
         
     with row1_col2:
-        st.markdown(
-            "<div class='insights-card' style='height: 100%; min-height: 185px;'>"
-            "<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; color: #cbd5e1; letter-spacing: 1px;'>AI Risk Engine</div>"
-            "<h3 style='margin-top: 5px; margin-bottom: 12px; font-weight: 800; color: #ffffff; font-size: 18px;'>Segmentation Analysis</h3>"
-            "<p style='color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-bottom: 0px;'>"
-            "Risk segments highlight subprime, low-income cohorts as high-risk, holding 58% of total default volume."
-            "</p>"
-            "</div>", 
-            unsafe_allow_html=True
-        )
+        render_kpi("SUBPRIME DEFAULT SHARE", "58.0%", "HIGH RISK EXPOSURE", "badge-crimson", "risk-card-alert", "#fca5a5")
 
     st.write("")
 
     row2_col1, row2_col2 = st.columns([1, 2])
     
     with row2_col1:
-        st.markdown("<div class='control-card'>", unsafe_allow_html=True)
-        st.markdown("<div class='control-card-header'>Action Queue Controller</div>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>ACTION QUEUE CONTROLLER</div>", unsafe_allow_html=True)
         
         min_dpd = st.slider("Minimum Days Past Due (DPD)", 30, 90, 30, 5)
         selected_tiers = st.multiselect("Filter Risk Tier", ["Subprime", "Near Prime", "Prime", "Super Prime"], default=["Subprime", "Near Prime"])
@@ -626,8 +668,8 @@ elif page == "Risk Intelligence":
         st.markdown("</div>", unsafe_allow_html=True)
         
     with row2_col2:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Priority Outbound Dialer Queue (High Risk Delinquents)</h3>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>PRIORITY OUTBOUND DIALER QUEUE (DELINQUENT ACCOUNTS)</div>", unsafe_allow_html=True)
         
         # Apply filters to outbound dialer queue
         df_delinq = df_repay[df_repay['days_past_due'] >= min_dpd].merge(df_cust, on='customer_key').merge(df_disb, left_on='loan_key', right_on='disbursement_key')
@@ -638,12 +680,12 @@ elif page == "Risk Intelligence":
             
         df_disp = df_delinq.head(6)
         st.dataframe(df_disp)
-        st.write(" *Prioritized using dense ranking based on installment-to-income cover ratios and total days past due.*")
+        st.markdown("<p style='font-size:11px; color:#64748b; margin-top:8px;'>Prioritized using dense ranking based on installment-to-income cover ratios and total days past due.</p>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
     st.write("")
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>NPL Rate % Heatmap (CIBIL vs. Monthly Income)</h3>", unsafe_allow_html=True)
+    st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+    st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>NPL DEFAULT RATE % HEATMAP (CIBIL BAND VS. MONTHLY INCOME DECILE)</div>", unsafe_allow_html=True)
     df_risk = df_repay.merge(df_cust, on='customer_key')
     
     df_risk['Score Band'] = pd.cut(df_risk['credit_score'], bins=[300, 600, 680, 750, 900], labels=['300-599', '600-679', '680-749', '750-900'])
@@ -660,43 +702,45 @@ elif page == "Risk Intelligence":
 # PAGE 5: COLLECTION ANALYTICS
 # ==========================================
 elif page == "Collection Analytics":
+    st.markdown(
+        "<div class='terminal-bar'>"
+        "<div>"
+        "<span style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #f59e0b; font-weight: 700;'>RECOVERIES ENGINE</span> "
+        "<span style='font-size: 13px; font-weight: 600; color: #f1f5f9; margin-left: 10px;'>COLLECTIONS EFFICACY & OUTREACH STRATEGY</span>"
+        "</div>"
+        "<div style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #64748b;'>"
+        "STRATEGY AUDIT: ACTIVE"
+        "</div>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    
     row1_col1, row1_col2 = st.columns([1, 2])
     
     with row1_col1:
         st.markdown(
-            "<div class='insights-card' style='height: 100%; min-height: 295px;'>"
-            "<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; color: #cbd5e1; letter-spacing: 1px;'>AI Collections Advisor</div>"
-            "<h3 style='margin-top: 5px; margin-bottom: 12px; font-weight: 800; color: #ffffff; font-size: 18px;'>Recovery Efficiencies</h3>"
-            "<p style='color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-bottom: 10px;'>"
-            "Digital-first collection strategy (SMS/Email) achieves high initial success, but <strong>legal escalations</strong> yield the highest recovery value for prime defaults."
-            "</p>"
-            "<ul style='color: #94a3b8; font-size: 12px; padding-left: 15px; line-height: 1.5; margin-bottom: 0px;'>"
-            "<li>Top 3 agents represent 38% of total recovered amounts.</li>"
-            "<li>Outreach strategy SMS/Email has the lowest operational cost.</li>"
-            "<li>Tele-calling yields a 14.5% CEI recovery conversion rate.</li>"
+            "<div class='memo-card'>"
+            "<div class='memo-header'>COLLECTIONS AUDIT MEMO</div>"
+            "<div style='font-size: 14px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px;'>Outreach Resolution Efficiencies</div>"
+            "<div style='color: #cbd5e1; font-size: 12.5px; line-height: 1.5; margin-bottom: 10px;'>"
+            "SMS/Digital outreach handles high early-stage volume at minimal expense, but <strong style='color: #f1f5f9;'>legal escalations</strong> deliver highest recovery values on prime defaults."
+            "</div>"
+            "<ul style='color: #94a3b8; font-size: 11.5px; padding-left: 15px; line-height: 1.5; margin-bottom: 0px;'>"
+            "<li>Top 3 collection agents account for 38% of recovered capital.</li>"
+            "<li>Tele-calling converts at 14.5% Collections Efficiency Index (CEI).</li>"
             "</ul>"
             "</div>", 
             unsafe_allow_html=True
         )
         
     with row1_col2:
-        st.markdown(
-            "<div class='hero-banner' style='margin-bottom: 20px; padding: 30px;'>"
-            "<span style='background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>Recoveries</span>"
-            "<h1 style='font-weight:800; font-size: 34px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Collections Strategy & Efficacy</h1>"
-            "<p style='color:#94a3b8; font-size: 14px; margin-bottom: 0px;'>Tracking recovery resolutions, agent success performance, and cost benefits.</p>"
-            "</div>", 
-            unsafe_allow_html=True
-        )
-        
-        # Display Agent Collections Chart in right col
-        st.markdown("<div class='glass-card' style='margin-bottom: 0px;'>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:16px;'>Collections Efficiency Index (CEI) by Agent</h4>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card' style='margin-bottom: 0px;'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>COLLECTIONS EFFICIENCY INDEX (CEI) BY AGENT ($ RECOVERED)</div>", unsafe_allow_html=True)
         agent_stats = df_coll.groupby('agent_id')['recovered_amount'].sum().reset_index()
         agent_stats = agent_stats.sort_values(by='recovered_amount', ascending=False).head(10)
         
         fig = px.bar(agent_stats, x='agent_id', y='recovered_amount', color='recovered_amount',
-                     color_continuous_scale='Viridis', labels=dict(recovered_amount="Amount Recovered ($)"))
+                     color_continuous_scale='Blues', labels=dict(recovered_amount="Amount Recovered ($)"))
         st.plotly_chart(polish_plotly(fig), use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -705,8 +749,8 @@ elif page == "Collection Analytics":
     row2_col1, row2_col2 = st.columns([2, 1])
     
     with row2_col1:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>Recoveries Split by Outreach Strategy</h3>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>RECOVERIES SPLIT BY OUTREACH STRATEGY</div>", unsafe_allow_html=True)
         strat_stats = df_coll.groupby('collection_strategy')['recovered_amount'].sum().reset_index()
         
         fig = px.pie(strat_stats, values='recovered_amount', names='collection_strategy',
@@ -715,14 +759,14 @@ elif page == "Collection Analytics":
         st.markdown("</div>", unsafe_allow_html=True)
         
     with row2_col2:
-        st.markdown("<div class='control-card'>", unsafe_allow_html=True)
-        st.markdown("<div class='control-card-header'>Strategy Budget Simulator</div>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>STRATEGY BUDGET SIMULATOR</div>", unsafe_allow_html=True)
         
-        sms_pct = st.slider("SMS/Email Priority Allocation %", 0, 100, 30, 5)
-        call_pct = st.slider("Tele-calling Priority Allocation %", 0, 100, 50, 5)
+        sms_pct = st.slider("SMS/Digital Allocation %", 0, 100, 30, 5)
+        call_pct = st.slider("Tele-calling Allocation %", 0, 100, 50, 5)
         
         legal_pct = max(0, 100 - sms_pct - call_pct)
-        st.info(f"Legal Outreach Allocation is set to: {legal_pct}%")
+        st.info(f"Legal Outreach Allocation: {legal_pct}%")
         
         base_recovery_vol = 8.4
         sms_recovery_eff = 0.05
@@ -732,54 +776,60 @@ elif page == "Collection Analytics":
         projected_recovery_est = base_recovery_vol * (1.0 + (sms_pct/100.0)*sms_recovery_eff + (call_pct/100.0)*call_recovery_eff + (legal_pct/100.0)*legal_recovery_eff)
         
         st.write("")
-        st.markdown(f"<div style='font-size:12px; text-transform:uppercase; color:#94a3b8; font-weight:700;'>Projected Monthly Recoveries</div><div style='font-size:28px; font-weight:800; color:#fbbf24;'>${projected_recovery_est:.2f}M</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='meta-label'>Projected Monthly Recoveries</div><div class='mono-val-md' style='color:#f59e0b;'>${projected_recovery_est:.2f}M</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
 # ==========================================
 # PAGE 6: GEOGRAPHIC INTELLIGENCE
 # ==========================================
 elif page == "Geographic Intelligence":
+    st.markdown(
+        "<div class='terminal-bar'>"
+        "<div>"
+        "<span style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #3b82f6; font-weight: 700;'>LOCATION PROFILER</span> "
+        "<span style='font-size: 13px; font-weight: 600; color: #f1f5f9; margin-left: 10px;'>GEOGRAPHIC CONCENTRATION & LOSS HEATMAP</span>"
+        "</div>"
+        "<div style='font-family: \"JetBrains Mono\", monospace; font-size: 11px; color: #64748b;'>"
+        "REGIONAL EXPOSURE AUDIT"
+        "</div>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    
     row1_col1, row1_col2 = st.columns([2, 1])
     
     with row1_col1:
         st.markdown(
-            "<div class='hero-banner' style='margin-bottom: 20px; padding: 30px;'>"
-            "<span style='background-color: rgba(99, 102, 241, 0.2); color: #cbd5e1; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;'>Geography</span>"
-            "<h1 style='font-weight:800; font-size: 34px; margin-top: 10px; margin-bottom: 5px; color: #ffffff;'>Geographic Intelligence & Loss</h1>"
-            "<p style='color:#94a3b8; font-size: 14px; margin-bottom: 0px;'>State concentrations, default outlier postcodes, and regional disbursements.</p>"
+            "<div class='memo-card'>"
+            "<div class='memo-header'>GEOGRAPHIC RISK MEMO</div>"
+            "<div style='font-size: 14px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px;'>State Default Concentration Outliers</div>"
+            "<div style='color: #cbd5e1; font-size: 12.5px; line-height: 1.5;'>"
+            "Maharashtra and Delhi hold top funding volumes with healthy defaults (&lt;1.20%). However, <strong style='color: #ef4444;'>Uttar Pradesh (4.20%) and Bihar (3.40%)</strong> exceed risk tolerance limits."
+            "</div>"
             "</div>", 
             unsafe_allow_html=True
         )
         
     with row1_col2:
-        st.markdown(
-            "<div class='insights-card' style='height: 100%; min-height: 185px;'>"
-            "<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; color: #cbd5e1; letter-spacing: 1px;'>AI Location Profiler</div>"
-            "<h3 style='margin-top: 5px; margin-bottom: 12px; font-weight: 800; color: #ffffff; font-size: 18px;'>Geographic Exposure</h3>"
-            "<p style='color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-bottom: 0px;'>"
-            "Regional allocation is heavily concentrated in Maharashtra and Delhi. However, Uttar Pradesh and Bihar hold default rate outliers."
-            "</p>"
-            "</div>", 
-            unsafe_allow_html=True
-        )
+        render_kpi("HIGHEST STATE NPL (UP)", "4.20%", "OUTLIER ALERT", "badge-crimson", "risk-card-alert", "#fca5a5")
 
     st.write("")
 
     row2_col1, row2_col2 = st.columns([1, 2])
     
     with row2_col1:
-        st.markdown("<div class='control-card'>", unsafe_allow_html=True)
-        st.markdown("<div class='control-card-header'>Exposure Controller</div>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>EXPOSURE THRESHOLD CONTROLLER</div>", unsafe_allow_html=True)
         
         max_allowed_default = st.slider("Highlight Default Rates Above %", 0.5, 5.0, 2.5, 0.1)
         
         st.write("")
-        st.markdown(f"<div style='font-size:12px; text-transform:uppercase; color:#94a3b8; font-weight:700;'>Active High Risk Filter Threshold</div><div style='font-size:28px; font-weight:800; color:#f43f5e;'>{max_allowed_default:.1f}%</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='meta-label'>Active High Risk Filter Limit</div><div class='mono-val-md' style='color:#ef4444;'>{max_allowed_default:.1f}%</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
     with row2_col2:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>State Default Rates % (Loss Concentration)</h3>", unsafe_allow_html=True)
+        st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>STATE DEFAULT RATES % (LOSS CONCENTRATION)</div>", unsafe_allow_html=True)
         default_data = {
             "State": ["Maharashtra ", "Delhi ", "Uttar Pradesh ", "Karnataka ", "Tamil Nadu ", "Telangana ", "West Bengal ", "Bihar ", "Madhya Pradesh ", "Gujarat "],
             "Default Rate %": [1.20, 0.95, 4.20, 0.85, 1.10, 0.70, 2.10, 3.40, 1.80, 0.90]
@@ -787,7 +837,7 @@ elif page == "Geographic Intelligence":
         df_df = pd.DataFrame(default_data)
         
         # Color dynamically based on threshold
-        colors = [theme_colors['danger'] if val > max_allowed_default else theme_colors['success'] for val in df_df['Default Rate %']]
+        colors = ['#ef4444' if val > max_allowed_default else '#10b981' for val in df_df['Default Rate %']]
         
         fig = px.bar(df_df, x='Default Rate %', y='State', orientation='h')
         fig.update_traces(marker_color=colors)
@@ -795,8 +845,8 @@ elif page == "Geographic Intelligence":
         st.markdown("</div>", unsafe_allow_html=True)
         
     st.write("")
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.markdown("<h3 style='margin-top:0px; font-weight:700; color:#38bdf8; font-size:18px;'>State-Level Disbursement Volumes ($)</h3>", unsafe_allow_html=True)
+    st.markdown("<div class='risk-card'>", unsafe_allow_html=True)
+    st.markdown("<div class='meta-label' style='margin-bottom: 12px;'>STATE-LEVEL DISBURSEMENT VOLUMES ($)</div>", unsafe_allow_html=True)
     state_data = {
         "State": ["Maharashtra ", "Delhi ", "Uttar Pradesh ", "Karnataka ", "Tamil Nadu ", "Telangana ", "West Bengal ", "Bihar ", "Madhya Pradesh ", "Gujarat "],
         "Funded Volume": [35400000, 24500000, 18200000, 21500000, 16400000, 12200000, 9800000, 7200000, 8400000, 11500000]
