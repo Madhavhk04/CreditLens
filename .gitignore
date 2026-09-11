@@ -15,3 +15,7 @@ env/
 .DS_Store
 Thumbs.db
 *.log
+
+# Ignore Vite build and dependencies
+node_modules/
+dist/
