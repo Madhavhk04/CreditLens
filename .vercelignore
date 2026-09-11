@@ -1,0 +1,8 @@
+requirements.txt
+app.py
+server.py
+scripts/
+data_warehouse/
+sql_queries/
+reports/
+docs/
